@@ -135,9 +135,7 @@ The [Soroban Rust SDK](https://docs.rs/soroban-sdk/latest/soroban_sdk/index.html
 - Address (`Address`): universal opaque identifier used in contracts
 - String (`String`): a contiguous growable array type containing u8s and requires an env to be passed in
 - Symbol:
-
   - (`Symbol::new`): small efficient strings up to 32 characters in length and requires an env to be passed in
-
   - (`symbol_short!`) small efficient strings up to 9 characters in length
 
   Both are limited to the characters `a-zA-Z0-9_` and are encoded into 64-bit integers.
@@ -183,7 +181,7 @@ let vec = vec![&env, 0, 1, 2, 3];
 let map = map![&env, (2, 20), (1, 10)];
 
 // Address
-let address = Address::new([0u8; 32]);
+let address = Address::from_str(&env, "G...");
 
 // Struct (named fields)
 pub struct State {
@@ -463,7 +461,7 @@ Here's a line-by-line explanation of what the code is doing:
 #![no_std]
 ```
 
-This is a Rust attribute that tells the Rust compiler not to link the [Rust standard library](https://doc.rust-lang.org/std/). The standard library is extensive, and when deploying Soroban applications, we want to streamline the process as much as possible. By using `no_std`, we establish a leaner, "barebones" starting point for projects, encompassing only the Rust core and a few other essential components, rather than the full breadth of the standard library.
+This is a Rust attribute that tells the Rust compiler not to link the [Rust standard library](https://doc.rust-lang.org/std). The standard library is extensive, and when deploying Soroban applications, we want to streamline the process as much as possible. By using `no_std`, we establish a leaner, "barebones" starting point for projects, encompassing only the Rust core and a few other essential components, rather than the full breadth of the standard library.
 
 ```rust
 use soroban_sdk::{contractimpl, log, Env, Symbol};
@@ -575,10 +573,10 @@ crate-type = ["cdylib"]
 testutils = ["soroban-sdk/testutils"]
 
 [dependencies]
-soroban-sdk = "20.0.0"
+soroban-sdk = "27"
 
-[dev_dependencies]
-soroban-sdk = { version = "20.0.0", features = ["testutils"] }
+[dev-dependencies]
+soroban-sdk = { version = "27", features = ["testutils"] }
 
 [profile.release]
 opt-level = "z"
